@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22%231b1020%22 stroke=%22%23ff6fa3%22 stroke-width=%225%22/><circle cx=%2236%22 cy=%2234%22 r=%228%22 fill=%22%23ffb3cf%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Collection | Bubbles</title>
+<meta name="description" content="The current collection of original works by Bubbles.">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html">BUBBLES</a>
+  <nav><a href="index.html">Home</a><a href="work.html" aria-current="page">Collection</a><a href="index.html#about">The artist</a><a href="index.html#contact">Contact</a></nav>
+</header>
+<main>
+  <div class="wrap page-title">
+    <h2>The collection</h2>
+    <p class="sub">Each work is unique. To acquire a piece, send a private inquiry and Bubbles will reply personally with details, shipping, and payment.</p>
+  </div>
+  <div class="wrap"><div class="grid" id="grid"></div></div>
+</main>
+<footer><div class="wrap"><span>© <span id="yr"></span> Bubbles. All works are original.</span><a href="#" id="ig">Instagram</a></div></footer>
+<script src="config.js"></script>
+<script>
+const tones=[["#4a2358","#1b1020"],["#12363b","#1b1020"],["#5a2340","#1b1020"],["#2a2250","#1b1020"],["#40233a","#1b1020"],["#1d3a33","#1b1020"]];
+function placeholder(i){
+  const [a,b]=tones[i%tones.length];let c="";
+  for(let k=0;k<4;k++){const x=60+((i*37+k*61)%190),y=70+((i*29+k*83)%230),r=22+((i*13+k*29)%58);
+    c+=`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#g${i})" stroke="#ff6fa3" stroke-opacity=".6" stroke-width="1.2"/><circle cx="${x-r*.35}" cy="${y-r*.4}" r="${r*.11}" fill="#f6eef4" opacity=".9"/>`}
+  return `<svg viewBox="0 0 300 375" role="img" aria-label="Placeholder artwork"><defs><linearGradient id="l${i}" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient><radialGradient id="g${i}"><stop offset=".55" stop-color="#f6eef4" stop-opacity=".02"/><stop offset=".85" stop-color="#ff6fa3" stop-opacity=".3"/><stop offset="1" stop-color="#ffb3cf" stop-opacity=".5"/></radialGradient></defs><rect width="300" height="375" fill="url(#l${i})"/>${c}</svg>`;
+}
+const grid=document.getElementById("grid");
+ART.forEach((p,i)=>{
+  const sold=p.status==="sold";
+  const el=document.createElement("article");
+  el.className="piece"+(sold?" is-sold":"");
+  el.innerHTML=`<figure>${p.img?`<img src="${p.img}" alt="${p.title}, ${p.medium}" loading="lazy">`:placeholder(i)}</figure>
+  <h3>${p.title}</h3><div class="meta">${p.medium}, ${p.size}</div>
+  <div class="row">${sold?'<span class="sold">Sold</span>':`<span>${p.price||"Price on request"}</span><button class="link" data-inquire="${p.title}">Inquire</button>`}</div>`;
+  grid.appendChild(el);
+});
+</script>
+<script src="site.js"></script>
+</body>
+</html>
